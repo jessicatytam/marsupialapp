@@ -14,7 +14,7 @@ library(dplyr)
 library(stringr)
 
 #loading hidden API key
-vault <- file.path("C:/Users/iamje/Jess/UNSW/BEES0006/specieshindex", ".vault")
+vault <- file.path(".vault")
 key_dir <- file.path(system.file(package = "secret"), "user_keys")
 public_key <- file.path(key_dir, "jesst.pub")
 private_key <- file.path(key_dir, "jesst.pem")
@@ -26,7 +26,7 @@ taxonomy <- read.csv(file = "taxonomy.csv", header = T)
 #loop function to download citation data
 DownloadAll <- function(data) {
   totalspp <- nrow(data)
-  APIkey <- "442b9048417ef20cf680a0ae26ee4d86"
+  APIkey <- myAPI
   datalist = list()
   print("Starting loop now.")
   for (i in 1:totalspp) {
