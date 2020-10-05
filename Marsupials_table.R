@@ -3,6 +3,7 @@ library(taxize)
 library(httr)
 library(XML)
 library(rscopus)
+library(secret)
 devtools::install_github("jessicatytam/specieshindex", force = T)
 library(specieshindex)
 #table libraries
@@ -11,6 +12,13 @@ library(formattable)
 #data wrangling libraries
 library(dplyr)
 library(stringr)
+
+#loading hidden API key
+vault <- file.path("C:/Users/iamje/Jess/UNSW/BEES0006/specieshindex", ".vault")
+key_dir <- file.path(system.file(package = "secret"), "user_keys")
+public_key <- file.path(key_dir, "jesst.pub")
+private_key <- file.path(key_dir, "jesst.pem")
+myAPI <- get_secret("myAPI", key = private_key, vault = vault) #loading my hidden API key
 
 #load taxonomy data
 taxonomy <- read.csv(file = "taxonomy.csv", header = T)
