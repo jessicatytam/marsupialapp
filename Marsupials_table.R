@@ -52,16 +52,11 @@ marsupial_df <- marsupial_df %>%
   mutate(Class= str_to_title(tolower(taxonomy$className)))
 
 #reordering and tidying the dataset
-marsupial_df <- marsupial_df[,c(1:3,14:16,4:13)] %>%
+marsupial_table <- marsupial_df[,c(1,4,5,9:13)] %>%
   mutate(genus_species = str_replace_all(genus_species, "[[:punct:]]", " ")) %>%
-  rename("Binomial name" = genus_species,
-         "Species" = species,
-         "Genus" = genus,
+  rename("Speices" = genus_species,
          Publications = publications,
          Citations = citations,
-         Journals = journals,
-         Articles = articles,
-         Reviews = reviews,
          "Years publishing" = years_publishing,
          "h-index" = h,
          "m-index" = m,
@@ -73,7 +68,7 @@ marsupial_df <- marsupial_df[,c(1:3,14:16,4:13)] %>%
 unit.scale = function(x) (x - min(x)) / (max(x) - min(x))
 
 #the table
-formattable(marsupial_df, list(
+formattable(marsupial_table, list(
   "h-index" = color_bar("#FF9E9E", fun = unit.scale),
   "m-index" = color_bar("#FFE49E", fun = unit.scale),
   "i10 index" = color_bar("#9EFFAF", fun = unit.scale),
