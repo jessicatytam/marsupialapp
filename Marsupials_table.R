@@ -52,11 +52,16 @@ marsupial_df <- marsupial_df %>%
   mutate(Class= str_to_title(tolower(taxonomy$className)))
 
 #reordering and tidying the dataset
-marsupial_table <- marsupial_df[,c(1,4,5,9:13)] %>%
+marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
   mutate(genus_species = str_replace_all(genus_species, "[[:punct:]]", " ")) %>%
-  rename("Speices" = genus_species,
+  rename("Binomial name" = genus_species,
+         "Species" = species,
+         "Genus" = genus,
          Publications = publications,
          Citations = citations,
+         Journals = journals,
+         Articles = articles,
+         Reviews = reviews,
          "Years publishing" = years_publishing,
          "h-index" = h,
          "m-index" = m,
