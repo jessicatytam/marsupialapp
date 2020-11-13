@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Interactive app for marsupial data</h1>
+    <p>
+        <label for="x-variable">x-variable</label>
+        <select name="x-variable" id="xvar">
+            <option value="publications">Publications</option>
+            <option value="citations">Citations</option>
+            <option value="journals">Journals</option>
+            <option value="articles">Articles</option>
+            <option value="reviews">Reviews</option>
+            <option value="years_publishing">Years publishing</option>
+        </select>
+        
+    </p>
+    <p>
+        <label for="y-variable">y-variable</label>
+        <select name="y-variable" id="yvar">
+            <option value=""h"">h-index</option>
+            <option value=""m"">m-index</option>
+            <option value=""i10"">i10 index</option>
+            <option value=""h5"">h5 index</option>
+        </select>
+    </p>
+    <p>
+        <label for="colourby">Colour by</label>
+        <select name="colourby" id="colour">
+            <option value="species">Species</option>
+            <option value="genus">Genus</option>
+            <option value="family">Family</option>
+            <option value="order">Order</option>
+            <option value="class">Class</option>
+        </select>
+    </p>
+    <h2>Plot of data</h2>
+    <div id="plot" class="shiny-plot-output"
+         style="width = 9">
+    </div>
+</body>
+</html>
