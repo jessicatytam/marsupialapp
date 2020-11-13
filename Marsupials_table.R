@@ -49,7 +49,7 @@ marsupial_df <- bind_rows(marsupials)
 marsupial_df <- marsupial_df %>%
   mutate(Family = str_to_title(tolower(taxonomy$familyName))) %>%
   mutate(Order = str_to_title(tolower(taxonomy$orderName))) %>%
-  mutate(Class= str_to_title(tolower(taxonomy$className)))
+  mutate(Class= str_to_title(tolower(taxonomy$className))) 
 
 #reordering and tidying the dataset
 marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
@@ -68,8 +68,9 @@ marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
          "i10 index" = i10,
          "h5 index" = h5)
 
+
 #function to scale the colour bar
-#credits to [Tim Bock] (https://www.displayr.com/formattable/)
+#from [Tim Bock] (https://www.displayr.com/formattable/)
 unit.scale = function(x) (x - min(x)) / (max(x) - min(x))
 
 #the table
@@ -79,3 +80,4 @@ formattable(marsupial_table, list(
   "i10 index" = color_bar("#9EFFAF", fun = unit.scale),
   "h5 index" = color_bar("#9EDBFF", fun = unit.scale)
 ))
+
