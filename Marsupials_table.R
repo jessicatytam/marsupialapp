@@ -4,7 +4,7 @@ library(httr)
 library(XML)
 library(rscopus)
 library(secret)
-devtools::install_github("jessicatytam/specieshindex", force = T)
+devtools::install_github("jessicatytam/specieshindex", force = TRUE, build_vignettes = FALSE)
 library(specieshindex)
 #table libraries
 library(reactable)
@@ -13,20 +13,13 @@ library(formattable)
 library(dplyr)
 library(stringr)
 
-#loading hidden API key
-vault <- file.path(".vault")
-key_dir <- file.path(system.file(package = "secret"), "user_keys")
-public_key <- file.path(key_dir, "jesst.pub")
-private_key <- file.path(key_dir, "jesst.pem")
-myAPI <- get_secret("myAPI", key = private_key, vault = vault) #loading my hidden API key
-
 #load taxonomy data
-taxonomy <- read.csv(file = "taxonomy.csv", header = T)
+taxonomy <- read.csv(file = "IUCN_data/taxonomy.csv", header = T)
 
 #loop function to download citation data
 DownloadAll <- function(data) {
   totalspp <- nrow(data)
-  APIkey <- myAPI
+  APIkey <- "442b9048417ef20cf680a0ae26ee4d86"
   datalist = list()
   print("Starting loop now.")
   for (i in 1:totalspp) {
