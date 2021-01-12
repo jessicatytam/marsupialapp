@@ -45,7 +45,7 @@ marsupial_df <- marsupial_df %>%
          class= str_to_title(tolower(taxonomy$className)),
          .after = genus)
 
-write.csv(marsupial_df, file = "outputs/marsupial_df")
+write.csv(marsupial_df, file = "outputs/marsupial_df.csv")
 
 #reordering and tidying the dataset
 marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
