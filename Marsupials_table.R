@@ -6,12 +6,12 @@ library(rscopus)
 library(secret)
 devtools::install_github("jessicatytam/specieshindex", force = TRUE, build_vignettes = FALSE)
 library(specieshindex)
-#table libraries
-library(reactable)
-library(formattable)
 #data wrangling libraries
 library(dplyr)
 library(stringr)
+#table libraries
+library(reactable)
+library(formattable)
 
 #load taxonomy data
 taxonomy <- read.csv(file = "IUCN_data/taxonomy.csv", header = T)
@@ -26,7 +26,7 @@ DownloadAll <- function(data) {
     print(i)
     species <- FetchSpTAK(data$genusName[i],
                           data$speciesName[i], 
-                          APIkey)
+                          APIkey = APIkey)
     sppindex <- Allindices(species, genus = data$genusName[i], species = data$speciesName[i])
     print(paste(length(species), "records retrieved."))
     datalist[[i]] <- sppindex
@@ -40,9 +40,12 @@ marsupial_df <- bind_rows(marsupials)
 
 #adding taxonomic levels
 marsupial_df <- marsupial_df %>%
-  mutate(Family = str_to_title(tolower(taxonomy$familyName))) %>%
-  mutate(Order = str_to_title(tolower(taxonomy$orderName))) %>%
-  mutate(Class= str_to_title(tolower(taxonomy$className))) 
+  mutate(family = str_to_title(tolower(taxonomy$familyName)),
+         order = str_to_title(tolower(taxonomy$orderName)),
+         class= str_to_title(tolower(taxonomy$className)),
+         .after = genus)
+
+write.csv(marsupial_df, file = "outputs/marsupial_df")
 
 #reordering and tidying the dataset
 marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
@@ -50,6 +53,9 @@ marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
   rename("Binomial name" = genus_species,
          "Species" = species,
          "Genus" = genus,
+         "Family" = family,
+         "Order" = order,
+         "Class" = class,
          Publications = publications,
          Citations = citations,
          Journals = journals,
