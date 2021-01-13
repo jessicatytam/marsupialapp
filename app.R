@@ -1,31 +1,36 @@
 library(shiny)
 library(shinythemes)
+library(plotly)
 library(ggplot2)
 library(dplyr)
 
 #the ui
-ui <- pageWithSidebar(
+ui <- (fluidPage(
   
-  titlePanel("Australasian marsupials"),
+  titlePanel("Impact factors of publications of Australasian marsupials"),
   
-  sidebarPanel(
-    selectInput(inputId = "x",
+  fluidPage(sidebarLayout(
+    sidebarPanel(
+      
+      selectInput(inputId = "x",
                 label = "x-variable",
                 choices = c("Publications", "Citations", "Journals", "Articles", "Reviews", "Years publishing")),
-    selectInput(inputId = "y",
+      selectInput(inputId = "y",
                 label = "y-variable",
                 choices = c("h-index", "m-index", "i10 index", "h5 index")),
-    selectInput(inputId = "colour",
+      selectInput(inputId = "colour",
                 label = "Colour by",
                 choices = c("Species", "Genus", "Family", "Order", "Class")),
-    width = 3
+      width = 2
   ),
   
   mainPanel(
-    plotOutput("indexplot"),
-    width = 9
-  )
-)
+    plotlyOutput("indexplot"),
+    width = 10)
+  
+  ))
+  
+))
 
 #the server
 server <- function(input, output) {
@@ -52,18 +57,19 @@ server <- function(input, output) {
     switch(input$colour,
            "Species" = "genus_species",
            "Genus" = "genus",
-           "Family" = "Family",
-           "Order" = "Order",
-           "Class" = "Class")
+           "Family" = "family",
+           "Order" = "order",
+           "Class" = "class")
   })
   
-  output$indexplot <- renderPlot({ #actual plot
+  output$indexplot <- renderPlotly({ #actual plot
     
-    ggplot(marsupial_df,
+    plotresults <- ggplot(marsupial_df,
            aes_string(x = xvar(),
                       y = yvar(),
                       colour = colby())) +
-      geom_point(size = 3) +
+      geom_point(size = 2,
+                 alpha = 0.5) +
       labs(x = input$x,
            y = input$y,
            colour = input$colour) +
@@ -74,7 +80,9 @@ server <- function(input, output) {
             legend.title = element_text(size = 16),
             legend.text = element_text(size = 12))
     
-  }, height = 700)
+    ggplotly(plotresults) %>% layout(height = 800)
+    
+  })
   
 }
 

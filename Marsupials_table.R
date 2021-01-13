@@ -47,6 +47,8 @@ marsupial_df <- marsupial_df %>%
 
 write.csv(marsupial_df, file = "outputs/marsupial_df.csv")
 
+marsupial_df <- read.csv(file = "outputs/marsupial_df.csv", header = T)[-c(1)]
+
 #reordering and tidying the dataset
 marsupial_table <- marsupial_df[,c(1:3,14:16,4:13)] %>%
   mutate(genus_species = str_replace_all(genus_species, "[[:punct:]]", " ")) %>%
