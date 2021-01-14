@@ -1,64 +1,27 @@
 library(dplyr)
 library(ggplot2)
-library(ggridges)
-library(forcats)
-
 
 marsupials <- read.csv(file = "outputs/marsupial_df.csv", header = T)[-c(1)]
 
-#violin plot
-ggplot(marsupials, aes(x = family,
-                       y = h,
-                       fill = family)) +
-  geom_violin() +
-  labs(x = "Family",
-       y = "h-index") +
-  theme(axis.title.x = element_text(size = 16),
-        axis.text.x = element_text(size = 12,
-                                   angle = 90),
-        axis.title.y = element_text(size = 16),
-        axis.text.y = element_text(size = 12),
-        legend.position = "none")
-
-#violin plot (count)
-ggplot(marsupials, aes(x = family,
-                       y = h,
-                       fill = family)) +
-  geom_violin(scale = "count") +
-  labs(x = "Family",
-       y = "h-index") +
-  theme(axis.title.x = element_text(size = 16),
-        axis.text.x = element_text(size = 12,
-                                   angle = 90),
-        axis.title.y = element_text(size = 16),
-        axis.text.y = element_text(size = 12),
-        legend.position = "none")
-
-#violin plot (width)
-ggplot(marsupials, aes(x = family,
-                       y = h,
-                       fill = family)) +
-  geom_violin(scale = "width") +
-  labs(x = "Family",
-       y = "h-index") +
-  theme(axis.title.x = element_text(size = 16),
-        axis.text.x = element_text(size = 12,
-                                   angle = 90),
-        axis.title.y = element_text(size = 16),
-        axis.text.y = element_text(size = 12),
-        legend.position = "none")
-
-#ridgeline plot
-#seems like the area is representing the number of species in each family which is not what I want
-
+#boxplot
 ggplot(marsupials, aes(x = h,
-                       y = family,
-                       fill = family,
-                       group = sum(publications))) +
-  geom_density_ridges(rel_min_height = 0.001,
-                      alpha = 0.5,
-                      jittered_points = TRUE) +
+                       y = reorder(family, -h, FUN = "mean"))) +
+  geom_boxplot(fill = "salmon") +
+  geom_jitter(alpha = 0.5) +
   labs(x = "h-index",
-       y = "Family") +
-  theme(legend.position = "none")
+       y = "Family",
+       title = "h-index of Australasian marsupials by family") +
+  theme(title = element_text(size = 16),
+        axis.title.x = element_text(size = 14),
+        axis.text.x = element_text(size = 11),
+        axis.title.y = element_text(size = 14),
+        axis.text.y = element_text(size = 11))
 
+#removing layers from boxplot
+ggplot(marsupials, aes(x = h,
+                       y = reorder(family, -h, FUN = "mean"))) +
+  geom_boxplot(fill = "salmon") +
+  geom_jitter(alpha = 0.5) +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank(),
+        panel.background = element_blank())
