@@ -50,8 +50,6 @@ ggplot(marsupials, aes(x = family,
 
 #ridgeline plot
 #seems like the area is representing the number of species in each family which is not what I want
-reordering <- maxlist %>%
-  arrange(h) 
 
 ggplot(marsupials, aes(x = h,
                        y = family,
@@ -64,4 +62,3 @@ ggplot(marsupials, aes(x = h,
        y = "Family") +
   theme(legend.position = "none")
 
-hist(x = marsupials$family, y = marsupials$h)
