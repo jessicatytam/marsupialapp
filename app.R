@@ -64,7 +64,7 @@ server <- function(input, output) {
   
   output$indexplot <- renderPlotly({ #actual plot
     
-    plotresults <- ggplot(marsupial_df,
+    plotresults <- ggplot(marsupials,
            aes_string(x = xvar(),
                       y = yvar(),
                       colour = colby())) +
