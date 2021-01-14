@@ -1,5 +1,8 @@
 library(dplyr)
 library(ggplot2)
+library(ggridges)
+library(forcats)
+
 
 marsupials <- read.csv(file = "outputs/marsupial_df.csv", header = T)[-c(1)]
 
@@ -44,3 +47,21 @@ ggplot(marsupials, aes(x = family,
         axis.title.y = element_text(size = 16),
         axis.text.y = element_text(size = 12),
         legend.position = "none")
+
+#ridgeline plot
+#seems like the area is representing the number of species in each family which is not what I want
+reordering <- maxlist %>%
+  arrange(h) 
+
+ggplot(marsupials, aes(x = h,
+                       y = family,
+                       fill = family,
+                       group = sum(publications))) +
+  geom_density_ridges(rel_min_height = 0.001,
+                      alpha = 0.5,
+                      jittered_points = TRUE) +
+  labs(x = "h-index",
+       y = "Family") +
+  theme(legend.position = "none")
+
+hist(x = marsupials$family, y = marsupials$h)
