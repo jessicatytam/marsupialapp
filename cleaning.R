@@ -19,3 +19,5 @@ newlist <- merge(marsupials, redlist,
                      by = "genus_species")
 
 newlist <- newlist[c(1:6, 17, 7:16)]
+
+write.csv(newlist, file = "outputs/marsupial_iucn.csv")
